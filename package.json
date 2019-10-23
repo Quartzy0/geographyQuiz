@@ -21,8 +21,10 @@
   },
   "homepage": "https://github.com/Quartzy0/geographyQuiz#readme",
   "dependencies": {
+    "body-parser": "latest",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
-    "body-parser": "latest"
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   }
 }

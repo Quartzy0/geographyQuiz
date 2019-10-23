@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6f35301b-71dd-4fe0-9ac2-a05165c75dcf" name="Default Changelist" comment="" />
+    <list default="true" id="6f35301b-71dd-4fe0-9ac2-a05165c75dcf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/client.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/namespace.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/parent-namespace.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/socket.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/pages/createGame.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/pages/game.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/pages/joinGame.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/pages/main.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/main.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/partials/head.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/head.ejs" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +32,16 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1SWHg3ICkEWDDK9OGTJwZ00RVSy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.14.1" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/views" />
@@ -64,11 +89,39 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1571672539403</updated>
-      <workItem from="1571672541808" duration="2205000" />
+      <workItem from="1571672541808" duration="4047000" />
+      <workItem from="1571756849175" duration="7871000" />
+      <workItem from="1571853609601" duration="2980000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="NodeJSConfigurationType">
+        <watch expression="!(gameData[req.body.id]===null)" language="JavaScript" />
+        <watch expression="gameData[req.body.id]" language="JavaScript" />
+        <watch expression="!(gameData[req.body.id]===undefined)" language="JavaScript" />
+        <watch expression="!(gameData[req.body.id]==null)" language="JavaScript" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

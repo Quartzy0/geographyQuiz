@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Profile</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket;
+        let xhttp;
+        let prevValue = "";
+
+        function load() {
+            if (xhttp==null) {
+                if (window.XMLHttpRequest) {
+                    // code for modern browsers
+                    xhttp = new XMLHttpRequest();
+                } else {
+                    // code for old IE browsers
+                    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            }
+        }
+
+        function joinGame() {
+            if (prevValue===document.getElementById("id").value){
+                return;
+            }
+            prevValue = document.getElementById("id").value;
+
+            load();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    if (this.responseText === "false" || this.responseText === false) {
+                        document.getElementById("error").style.display = "block";
+                    }else {
+                        socket = io();
+                        console.log("Connected!");
+                        socket.emit('myIdentificationIsHere', {pin: document.getElementById("id").value, name: document.getElementById("name").value});
+                    }
+                }
+            };
+            xhttp.open("POST", "/checkGameSession", true);
+            xhttp.setRequestHeader('Content-Type', 'application/json');
+            xhttp.send(JSON.stringify({ id: document.getElementById("id").value, name: document.getElementById("name").value}));
+        }
+    </script>
+
+    <% include ../partials/head.ejs %>
+</head>
+
+<body style="background-color: #56baed;">
+<!--    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);-->
+
+<div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none;" id="gamePinThing">
+    <h1>Enter the session pin</h1>
+    <br>
+    <br>
+    <input type="text" class="form-control form-control-lg" id="id">
+    <br>
+    <h1>Enter your username</h1>
+    <br>
+    <br>
+    <input type="text" class="form-control form-control-lg" id="name">
+    <br>
+    <div style="display: none" id="error">
+        <h5 style="color: red">Username taken/Invalid session pin</h5>
+        <br>
+    </div>
+    <button type="button" class="btn btn-primary" style="width: 100px; height: 50px; position: absolute; left: 50%; transform: translate(-50%, 0px);" onclick="joinGame()">Join</button>
+</div>
+
+<div id="yourIn" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+    <h1 style="color: white; text-align: center">You're in the game</h1>
+    <h4 style="color: white; text-align: center">Please wait for the game to start</h4>
+</div>
+
+<% include ../partials/bootsrapScripts.ejs %>
+</body>
+</html>
