@@ -2,22 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f35301b-71dd-4fe0-9ac2-a05165c75dcf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/client.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/namespace.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/parent-namespace.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/lib/socket.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/socket.io/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/pages/createGame.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/pages/game.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/presentationSlides/example.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/presentationSlides/example2.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/pages/joinGame.ejs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/pages/main.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/main.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/partials/head.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/head.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/pages/createGame.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/gameHost.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/pages/game.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/game.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/partials/header.ejs" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,9 +49,12 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\QuartzMiner6000\WebstormProjects\GeographyProject\views" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\QuartzMiner6000\WebstormProjects\GeographyProject\views" />
     </key>
@@ -91,8 +88,18 @@
       <updated>1571672539403</updated>
       <workItem from="1571672541808" duration="4047000" />
       <workItem from="1571756849175" duration="7871000" />
-      <workItem from="1571853609601" duration="2980000" />
+      <workItem from="1571853609601" duration="3202000" />
+      <workItem from="1571933166734" duration="2801000" />
+      <workItem from="1571936283569" duration="786000" />
+      <workItem from="1572016384801" duration="6451000" />
     </task>
+    <task id="LOCAL−00001" summary="Major thingies added">
+      <created>1571856634207</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1571856634207</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,6 +120,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Major thingies added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Major thingies added" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

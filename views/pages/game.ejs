@@ -1,13 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Profile</title>
+    <title>Geography quiz</title>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket;
         let xhttp;
         let prevValue = "";
+        var prevFocus;
+
+        var pin;
+        var name;
 
         function load() {
             if (xhttp==null) {
@@ -21,6 +25,20 @@
             }
         }
 
+        function checkFocus() {
+            if (socket!=null){
+                let b = document.hasFocus();
+                if (b!==prevFocus){
+                    if (b){
+                        socket.emit('focusStateChange', {amIGoodBoy: true, pin: pin, name: name});
+                    }else {
+                        socket.emit('focusStateChange', {amIGoodBoy: false, pin: pin, name: name});
+                    }
+                }
+                prevFocus = b;
+            }
+        }
+
         function joinGame() {
             if (prevValue===document.getElementById("id").value){
                 return;
@@ -28,6 +46,8 @@
             prevValue = document.getElementById("id").value;
 
             load();
+            pin = document.getElementById("id").value;
+            name = document.getElementById("name").value;
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     if (this.responseText === "false" || this.responseText === false) {
@@ -35,23 +55,39 @@
                     }else {
                         socket = io();
                         console.log("Connected!");
-                        socket.emit('myIdentificationIsHere', {pin: document.getElementById("id").value, name: document.getElementById("name").value});
+                        socket.emit('myIdentificationIsHere', {pin: pin, name: name});
+
+                        socket.on('letTheGamesBegin', function (data) {
+                            document.getElementById("yourIn").style.display = "none";
+                            document.getElementById("slides").style.display = "block";
+                        });
+
+                        socket.on('masterLeftUs', function (data) {
+                            location.reload();
+                        });
+
+                        socket.on('slideData', function (data) {
+                            document.getElementById("slide").innerHTML = data.slide;
+                        });
+
+                        document.getElementById("yourIn").style.display = "block";
+                        document.getElementById("gamePinThing").style.display = "none";
                     }
                 }
             };
             xhttp.open("POST", "/checkGameSession", true);
             xhttp.setRequestHeader('Content-Type', 'application/json');
-            xhttp.send(JSON.stringify({ id: document.getElementById("id").value, name: document.getElementById("name").value}));
+            xhttp.send(JSON.stringify({ id: pin, name: name}));
         }
     </script>
 
     <% include ../partials/head.ejs %>
 </head>
 
-<body style="background-color: #56baed;">
+<body style="background-color: #56baed;" onload="setInterval(function() {checkFocus();}, 100)">
 <!--    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);-->
 
-<div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none;" id="gamePinThing">
+<div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" id="gamePinThing">
     <h1>Enter the session pin</h1>
     <br>
     <br>
@@ -69,9 +105,15 @@
     <button type="button" class="btn btn-primary" style="width: 100px; height: 50px; position: absolute; left: 50%; transform: translate(-50%, 0px);" onclick="joinGame()">Join</button>
 </div>
 
-<div id="yourIn" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+<div id="yourIn" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none;">
     <h1 style="color: white; text-align: center">You're in the game</h1>
     <h4 style="color: white; text-align: center">Please wait for the game to start</h4>
+</div>
+
+<div id="slides" style="display: none;">
+    <div id="slide">
+
+    </div>
 </div>
 
 <% include ../partials/bootsrapScripts.ejs %>
