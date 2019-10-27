@@ -25,6 +25,16 @@
             }
         }
 
+        function submitAnswer(index) {
+            socket.emit('answeredQuestion', {pin: pin, name: name, answer: index});
+            let i = 0;
+            while (true){
+                let thing = document.getElementById("answer" + i);
+                if (thing==null)break;
+                thing.disabled = true;
+            }
+        }
+
         function checkFocus() {
             if (socket!=null){
                 let b = document.hasFocus();
@@ -70,6 +80,31 @@
                             document.getElementById("slide").innerHTML = data.slide;
                         });
 
+                        socket.on('questionData', function (data) {
+                            document.getElementById("slides").style.display = "none";
+                            document.getElementById("questionsContainer").style.display = "block";
+
+                            document.getElementById("questionNumber").innerText = data.questionIndex;
+                            document.getElementById("questionText").innerText = data.questionText;
+                            let answers = data.answers;
+                            let answersHtml = '';
+                            for (let i = 0; i<answers.length; i++){
+                                if (i+1!==answers.length){
+                                    answersHtml+='<button type="button" class="btn btn-primary" style="width: 100%" id="answer' + i + '" onclick="submitAnswer(' + i + ')">' + answers[i].answer + '</button>\n' +
+                                        '                        <br>\n' +
+                                        '                        <br>';
+                                }else {
+                                    answersHtml+='<button type="button" class="btn btn-primary" style="width: 100%" id="answer' + i + '" onclick="submitAnswer(' + i + ')">' + answers[i].answer + '</button>\n';
+                                }
+                            }
+                            document.getElementById("answers").innerHTML = answersHtml;
+                            document.getElementById("clock").innerText = data.duration + ' seconds left!';
+                        });
+
+                        socket.on('questionEnd', function (data) {
+
+                        });
+
                         document.getElementById("yourIn").style.display = "block";
                         document.getElementById("gamePinThing").style.display = "none";
                     }
@@ -113,6 +148,27 @@
 <div id="slides" style="display: none;">
     <div id="slide">
 
+    </div>
+</div>
+
+<div id="questionsContainer" style="display: none;">
+    <div style="position: absolute; left: 20%; top: 20%; transform: translate(-50%, -50%);">
+        <p id="clock">0 Seconds Left!</p>
+    </div>
+    <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" id="answerQuestion">
+        <h1 id="questionNumber">Question 1</h1>
+        <div class="card" style="width:400px">
+            <div class="card-body">
+                <h4 class="card-title" id="questionText">(Actual question goes here)</h4>
+                <!--                        <button type="button" class="btn btn-primary" style="width: 100%" id="answer1">Answer 1</button>-->
+                <div id="answers">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" id="questionEnd">
+        <h1 id="questionNumberTimeout">Question 1</h1>
+        <h2 id="questionAnswerStatus">Correct!</h2>
     </div>
 </div>
 

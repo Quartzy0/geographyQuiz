@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f35301b-71dd-4fe0-9ac2-a05165c75dcf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/presentationSlides/example.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/presentationSlides/example2.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/questions.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/pages/createGame.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/gameHost.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/pages/game.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/game.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/partials/header.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/pages/gameHost.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/gameHost.ejs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,6 +46,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="ts.external.directory.path" value="C:\Users\QuartzMiner6000\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\192.6817.13\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -91,7 +88,10 @@
       <workItem from="1571853609601" duration="3202000" />
       <workItem from="1571933166734" duration="2801000" />
       <workItem from="1571936283569" duration="786000" />
-      <workItem from="1572016384801" duration="6451000" />
+      <workItem from="1572016384801" duration="6519000" />
+      <workItem from="1572087423965" duration="680000" />
+      <workItem from="1572103027904" duration="4182000" />
+      <workItem from="1572169253108" duration="4477000" />
     </task>
     <task id="LOCAL−00001" summary="Major thingies added">
       <created>1571856634207</created>
@@ -99,7 +99,13 @@
       <option name="presentableId" value="LOCAL−00001" />
       <updated>1571856634207</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL−00002" summary="Major thingies added">
+      <created>1572022882397</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1572022882397</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

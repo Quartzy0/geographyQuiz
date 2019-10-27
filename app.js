@@ -22,6 +22,22 @@ http.listen(PORT, function(){
 });
 
 io.on('connection', function (socket) {
+    socket.on('quizTime', function (data) {
+        if (gameData[data.pin].master.id===socket.id){
+            const questionData = gameData[data.pin].questionData[data.questionIndex];
+            for (let i = 0; i<gameData[data.pin].playerIds.length; i++){
+                gameData[data.pin].playerIds[i].emit('questionData', {questionIndex: data.questionIndex, questionText: questionData.title, answers: questionData.answers, duration: questionData.duration});
+            }
+            gameData[data.pin].master.emit('questionData', {questionIndex: data.questionIndex, questionText: questionData.title, answers: questionData.answers, duration: questionData.duration});
+            setTimeout(function () {
+                for (let i = 0; i<gameData[data.pin].playerIds.length; i++){
+                    gameData[data.pin].playerIds[i].emit('questionEnd');
+                }
+                gameData[data.pin].playerScoreData.sort((a, b) => b.score - a.score);
+                gameData[data.pin].master.emit('questionEnd', {places: gameData[data.pin].playerScoreData});
+            }, data.duration * 1000);
+        }
+    });
     socket.on('startGamePls', function (data1) {
         if (socket.id===gameData[data1.pin].master.id){
             fs.readdir(directoryPath, function (err, files) {
@@ -108,6 +124,7 @@ io.on('connection', function (socket) {
                     if (!(gameData[data.pin].players.includes(data.name))){
                         gameData[data.pin].players.push(data.name);
                         gameData[data.pin].playerIds.push(socket);
+                        gameData[data.pin].playerScoreData.push({name: data.name, id: socket, score: 0});
                         socket.emit('statusUpdate', {value: "urOk."});
                         gameData[data.pin].master.emit('guyJoined', {name: data.name});
                         return;
@@ -204,6 +221,11 @@ app.post('/createSession', function (req, res) {
     while (gameData[randomInt]!=null){
         randomInt = getRandomInt(0, 9999999);
     }
-    gameData[randomInt] = {players: [], playerIds: [], topic: "Select"};
-    res.send(randomInt + '');
+
+    fs.readFile(path.join(__dirname, 'questions.json'), function (err, data) {
+        if (err) throw err;
+
+        gameData[randomInt] = {players: [], playerIds: [], questionData: JSON.parse(data.toString('utf8')), playerScoreData: []};
+        res.send(randomInt + '');
+    });
 });
