@@ -183,6 +183,13 @@
             if (slideIndex-1>-1) {
                 slideIndex--;
                 socket.emit('slideUpdate', {slideIndex: slideIndex, pin: pin});
+                if (slideIndex+1>=slideLength){
+                    document.getElementById("nextBtn").style.display = "none";
+                    document.getElementById("quizStartThing").style.display = "block";
+                }else {
+                    document.getElementById("nextBtn").style.display = "block";
+                    document.getElementById("quizStartThing").style.display = "none";
+                }
             }
         }
     </script>
@@ -290,7 +297,7 @@
     </div>
 
     <div id="surveyTime" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none;">
-        <h1 style="color: white">What did you think of this presentation?</h1>
+        <h1 style="color: white">What do you think of this presentation?</h1>
         <br>
         <br>
         <div id="bars">

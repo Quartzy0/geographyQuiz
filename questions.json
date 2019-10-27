@@ -46,7 +46,7 @@
     ]
   },
   {
-    "title": "What is the average rainfall pre year in the UAE?",
+    "title": "What is the average rainfall per year in the UAE?",
     "givesPoints": true,
     "duration": 10,
     "answers": [
@@ -69,7 +69,7 @@
     ]
   },
   {
-    "title": "What is the official language spoken in the UAE?",
+    "title": "What is the official language in the UAE?",
     "givesPoints": true,
     "duration": 10,
     "answers": [
@@ -124,7 +124,7 @@
         "correct": true
       },
       {
-        "answer": "Catholicisms",
+        "answer": "Catholicism",
         "correct": false
       },
       {
@@ -133,6 +133,113 @@
       },
       {
         "answer": "Buddhism",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "title": "Which country didn't colonize the UAE?",
+    "givesPoints": true,
+    "duration": 10,
+    "answers": [
+      {
+        "answer": "Portugal",
+        "correct": false
+      },
+      {
+        "answer": "The Dutch",
+        "correct": false
+      },
+      {
+        "answer": "United kingdom",
+        "correct": false
+      },
+      {
+        "answer": "Spain",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "title": "What is the political system in the UAE?",
+    "givesPoints": true,
+    "duration": 10,
+    "answers": [
+      {
+        "answer": "Federal constitutional monarchy",
+        "correct": true
+      },
+      {
+        "answer": "Democracy",
+        "correct": false
+      },
+      {
+        "answer": "Authoritarianism",
+        "correct": false
+      },
+      {
+        "answer": "Rainbow land",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "title": "How much is one AED worth?",
+    "givesPoints": true,
+    "duration": 10,
+    "answers": [
+      {
+        "answer": "$0.25",
+        "correct": false
+      },
+      {
+        "answer": "€0.25",
+        "correct": true
+      },
+      {
+        "answer": "€10",
+        "correct": false
+      },
+      {
+        "answer": "$1",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "title": "What is the UAE world ranking position by GDP?",
+    "givesPoints": true,
+    "duration": 10,
+    "answers": [
+      {
+        "answer": "143rd",
+        "correct": false
+      },
+      {
+        "answer": "371st",
+        "correct": false
+      },
+      {
+        "answer": "10th",
+        "correct": false
+      },
+      {
+        "answer": "19th",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "title": "Does the UAE have a Prime Minister",
+    "givesPoints": true,
+    "duration": 10,
+    "answers": [
+      {
+        "answer": "Yes",
+        "correct": true
+      },
+      {
+        "answer": "No",
         "correct": false
       }
     ]
