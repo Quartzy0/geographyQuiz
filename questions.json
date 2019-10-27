@@ -1,46 +1,138 @@
 [
   {
-    "title": "Title goes here!",
+    "title": "How many emirates are there in the UAE?",
     "givesPoints": true,
     "duration": 10,
     "answers": [
       {
-        "answer": "Answer 1 Q1",
-        "correct": false
-      },
-      {
-        "answer": "Answer 2 Q1",
-        "correct": false
-      },
-      {
-        "answer": "Answer 3 Q1",
+        "answer": "7",
         "correct": true
       },
       {
-        "answer": "Answer 4 Q1",
+        "answer": "3",
+        "correct": false
+      },
+      {
+        "answer": "9",
+        "correct": false
+      },
+      {
+        "answer": "24",
         "correct": false
       }
     ]
   },
   {
-    "title": "Title goes here2!",
-    "givesPoints": false,
-    "duration": 20,
+    "title": "When were the UAE founded?",
+    "givesPoints": true,
+    "duration": 10,
     "answers": [
       {
-        "answer": "Answer 1 Q2",
+        "answer": "11th of September 2001",
+        "correct": false
+      },
+      {
+        "answer": "26th of January 1781",
+        "correct": false
+      },
+      {
+        "answer": "2nd of December 1971",
         "correct": true
       },
       {
-        "answer": "Answer 2 Q2",
+        "answer": "5th of November 1931",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "title": "What is the average rainfall pre year in the UAE?",
+    "givesPoints": true,
+    "duration": 10,
+    "answers": [
+      {
+        "answer": "200mm",
         "correct": false
       },
       {
-        "answer": "Answer 3 Q2",
+        "answer": "100mm",
+        "correct": true
+      },
+      {
+        "answer": "28.1mm",
         "correct": false
       },
       {
-        "answer": "Answer 4 Q2",
+        "answer": "289.28mm",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "title": "What is the official language spoken in the UAE?",
+    "givesPoints": true,
+    "duration": 10,
+    "answers": [
+      {
+        "answer": "Swedish",
+        "correct": false
+      },
+      {
+        "answer": "Spanish",
+        "correct": false
+      },
+      {
+        "answer": "English",
+        "correct": false
+      },
+      {
+        "answer": "Arabic",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "title": "What is the main biome in the UAE?",
+    "givesPoints": true,
+    "duration": 10,
+    "answers": [
+      {
+        "answer": "Temperate grassland",
+        "correct": false
+      },
+      {
+        "answer": "Hot desert",
+        "correct": true
+      },
+      {
+        "answer": "Rainforest",
+        "correct": true
+      },
+      {
+        "answer": "Desert",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "title": "What is the main religion in the UAE?",
+    "givesPoints": true,
+    "duration": 10,
+    "answers": [
+      {
+        "answer": "The Muslim religion",
+        "correct": true
+      },
+      {
+        "answer": "Catholicisms",
+        "correct": false
+      },
+      {
+        "answer": "Protestant",
+        "correct": true
+      },
+      {
+        "answer": "Buddhism",
         "correct": false
       }
     ]

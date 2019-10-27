@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f35301b-71dd-4fe0-9ac2-a05165c75dcf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/views/pages/game.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/game.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/pages/test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/presentationSlides/1.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/presentationSlides/3.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/questions.json" beforeDir="false" afterPath="$PROJECT_DIR$/questions.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/pages/gameHost.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/gameHost.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/presentationSlides/example.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/presentationSlides/example2.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/presentationSlides/2.ejs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -86,7 +93,7 @@
       <workItem from="1572016384801" duration="6519000" />
       <workItem from="1572087423965" duration="680000" />
       <workItem from="1572103027904" duration="4182000" />
-      <workItem from="1572169253108" duration="20190000" />
+      <workItem from="1572169253108" duration="23109000" />
     </task>
     <task id="LOCAL−00001" summary="Major thingies added">
       <created>1571856634207</created>
@@ -112,7 +119,13 @@
       <option name="presentableId" value="LOCAL−00004" />
       <updated>1572194139439</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL−00005" summary="almost finished!">
+      <created>1572194286723</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1572194286723</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

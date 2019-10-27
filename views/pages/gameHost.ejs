@@ -96,7 +96,8 @@
                         document.getElementById("leaderboard").style.display = "block";
                         let places = data.places;
                         let placesHtml = '';
-                        for (let i = 0;i<places.length;i++){
+                        let amountOfTimesToRepeat = places.length>5 ? 5 : places.length;
+                        for (let i = 0;i<amountOfTimesToRepeat;i++){
                             placesHtml+= '<h2>' + (i+1) + '. ' + places[i].name + ' - ' + places[i].score + '</h2>';
                         }
                         document.getElementById("places").innerHTML = placesHtml;
