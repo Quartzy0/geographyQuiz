@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f35301b-71dd-4fe0-9ac2-a05165c75dcf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/questions.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/pages/game.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/game.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/pages/gameHost.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/gameHost.ejs" afterDir="false" />
@@ -49,10 +47,10 @@
     <property name="ts.external.directory.path" value="C:\Users\QuartzMiner6000\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\192.6817.13\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\QuartzMiner6000\WebstormProjects\GeographyProject\views" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\QuartzMiner6000\WebstormProjects\GeographyProject\views" />
     </key>
   </component>
@@ -91,7 +89,7 @@
       <workItem from="1572016384801" duration="6519000" />
       <workItem from="1572087423965" duration="680000" />
       <workItem from="1572103027904" duration="4182000" />
-      <workItem from="1572169253108" duration="4477000" />
+      <workItem from="1572169253108" duration="19926000" />
     </task>
     <task id="LOCAL−00001" summary="Major thingies added">
       <created>1571856634207</created>
@@ -105,7 +103,13 @@
       <option name="presentableId" value="LOCAL−00002" />
       <updated>1572022882397</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL−00003" summary="Half done things here. Doesn't actually work yet">
+      <created>1572175963464</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1572175963464</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,16 +131,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Major thingies added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Major thingies added" />
-  </component>
-  <component name="XDebuggerManager">
-    <watches-manager>
-      <configuration name="NodeJSConfigurationType">
-        <watch expression="!(gameData[req.body.id]===null)" language="JavaScript" />
-        <watch expression="gameData[req.body.id]" language="JavaScript" />
-        <watch expression="!(gameData[req.body.id]===undefined)" language="JavaScript" />
-        <watch expression="!(gameData[req.body.id]==null)" language="JavaScript" />
-      </configuration>
-    </watches-manager>
+    <MESSAGE value="Half done things here. Doesn't actually work yet" />
+    <option name="LAST_COMMIT_MESSAGE" value="Half done things here. Doesn't actually work yet" />
   </component>
 </project>

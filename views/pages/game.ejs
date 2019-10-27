@@ -8,7 +8,7 @@
         var socket;
         let xhttp;
         let prevValue = "";
-        var prevFocus;
+        let prevValue2 = "";
 
         var pin;
         var name;
@@ -27,33 +27,18 @@
 
         function submitAnswer(index) {
             socket.emit('answeredQuestion', {pin: pin, name: name, answer: index});
-            let i = 0;
-            while (true){
-                let thing = document.getElementById("answer" + i);
-                if (thing==null)break;
-                thing.disabled = true;
-            }
-        }
-
-        function checkFocus() {
-            if (socket!=null){
-                let b = document.hasFocus();
-                if (b!==prevFocus){
-                    if (b){
-                        socket.emit('focusStateChange', {amIGoodBoy: true, pin: pin, name: name});
-                    }else {
-                        socket.emit('focusStateChange', {amIGoodBoy: false, pin: pin, name: name});
-                    }
-                }
-                prevFocus = b;
+            let answerText = document.getElementById("answers").children;
+            for (let i = 0;i<answerText.length;i++){
+                answerText[i].disabled = true;
             }
         }
 
         function joinGame() {
-            if (prevValue===document.getElementById("id").value){
+            if (prevValue===document.getElementById("id").value && prevValue2===document.getElementById("name").value){
                 return;
             }
             prevValue = document.getElementById("id").value;
+            prevValue2 = document.getElementById("name").value;
 
             load();
             pin = document.getElementById("id").value;
@@ -79,12 +64,14 @@
                         socket.on('slideData', function (data) {
                             document.getElementById("slide").innerHTML = data.slide;
                         });
-
+                        let clockInterval;
                         socket.on('questionData', function (data) {
                             document.getElementById("slides").style.display = "none";
                             document.getElementById("questionsContainer").style.display = "block";
+                            document.getElementById("questionEnd").style.display = "none";
+                            document.getElementById("answerQuestion").style.display = "block";
 
-                            document.getElementById("questionNumber").innerText = data.questionIndex;
+                            document.getElementById("questionNumber").innerText = "Question " + (data.questionIndex+1);
                             document.getElementById("questionText").innerText = data.questionText;
                             let answers = data.answers;
                             let answersHtml = '';
@@ -99,10 +86,34 @@
                             }
                             document.getElementById("answers").innerHTML = answersHtml;
                             document.getElementById("clock").innerText = data.duration + ' seconds left!';
+
+                            let i = data.duration;
+                            clockInterval = setInterval(function () {
+                                i--;
+                                document.getElementById("clock").innerText = i + ' seconds left!';
+                                if (i <= 0) {
+                                    clearInterval(clockInterval);
+                                }
+                            }, 1000);
                         });
 
                         socket.on('questionEnd', function (data) {
+                            console.log("Question end");
+                            if (clockInterval!=null){
+                                clearInterval(clockInterval);
+                            }
+                            document.getElementById("questionAnswerStatus").innerText = data.correct ? "Correct!" : "Incorrect!";
+                            document.getElementById("questionNumberTimeout").innerText = "Question " + (data.questionIndex+1);
+                            document.getElementById("streak").innerText = "Streak of " + data.streak;
+                            document.getElementById("pointGained").innerText = "+" + data.scoreGained;
 
+                            document.getElementById("questionEnd").style.display = "block";
+                            document.getElementById("answerQuestion").style.display = "none";
+                        });
+
+                        socket.on('feedbackTime', function (data) {
+                            document.getElementById("surveyTime").style.display = "block";
+                            document.getElementById("questionsContainer").style.display = "none";
                         });
 
                         document.getElementById("yourIn").style.display = "block";
@@ -114,12 +125,18 @@
             xhttp.setRequestHeader('Content-Type', 'application/json');
             xhttp.send(JSON.stringify({ id: pin, name: name}));
         }
+
+        function submitFeedback(rating) {
+            socket.emit('myRating', {rating: rating, pin: pin});
+            document.getElementById("buttonsThings").style.display = "none";
+            document.getElementById("thxForFeedback").style.display = "block";
+        }
     </script>
 
     <% include ../partials/head.ejs %>
 </head>
 
-<body style="background-color: #56baed;" onload="setInterval(function() {checkFocus();}, 100)">
+<body style="background-color: #56baed;">
 <!--    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);-->
 
 <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" id="gamePinThing">
@@ -152,24 +169,42 @@
 </div>
 
 <div id="questionsContainer" style="display: none;">
-    <div style="position: absolute; left: 20%; top: 20%; transform: translate(-50%, -50%);">
-        <p id="clock">0 Seconds Left!</p>
-    </div>
-    <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" id="answerQuestion">
-        <h1 id="questionNumber">Question 1</h1>
-        <div class="card" style="width:400px">
-            <div class="card-body">
-                <h4 class="card-title" id="questionText">(Actual question goes here)</h4>
-                <!--                        <button type="button" class="btn btn-primary" style="width: 100%" id="answer1">Answer 1</button>-->
-                <div id="answers">
+    <div id="answerQuestion">
+        <div style="position: absolute; left: 20%; top: 20%; transform: translate(-50%, -50%);">
+            <p id="clock" style="color: white">0 Seconds Left!</p>
+        </div>
+        <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+            <h1 id="questionNumber">Question 1</h1>
+            <div class="card" style="width:400px">
+                <div class="card-body">
+                    <h4 class="card-title" id="questionText">(Actual question goes here)</h4>
+                    <!--                        <button type="button" class="btn btn-primary" style="width: 100%" id="answer1">Answer 1</button>-->
+                    <div id="answers">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" id="questionEnd">
-        <h1 id="questionNumberTimeout">Question 1</h1>
-        <h2 id="questionAnswerStatus">Correct!</h2>
+    <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none;" id="questionEnd">
+        <h1 id="questionNumberTimeout" style="text-align: center">Question 1</h1>
+        <h2 id="questionAnswerStatus" style="text-align: center">Correct!</h2>
+        <br>
+        <h3 id="streak" style="text-align: center">Streak 2</h3>
+        <h3 id="pointGained" style="text-align: center">+0</h3>
     </div>
+</div>
+
+<div id="surveyTime" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none;">
+    <h1 style="color: white">What did you think of this presentation?</h1>
+    <br>
+    <div class="card" id="buttonsThings">
+        <button id="nextQuestion" class="btn btn-primary" onclick="submitFeedback(0)">I hate it!</button>
+        <button id="nextQuestion" class="btn btn-primary" onclick="submitFeedback(1)">Not good</button>
+        <button id="nextQuestion" class="btn btn-primary" onclick="submitFeedback(2)">Ok</button>
+        <button id="nextQuestion" class="btn btn-primary" onclick="submitFeedback(3)">Good</button>
+        <button id="nextQuestion" class="btn btn-primary" onclick="submitFeedback(4)">Excellent</button>
+    </div>
+    <h1 id="thxForFeedback" style="display: none; text-align: center;">Thanks for your feedback!</h1>
 </div>
 
 <% include ../partials/bootsrapScripts.ejs %>

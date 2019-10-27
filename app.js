@@ -22,24 +22,64 @@ http.listen(PORT, function(){
 });
 
 io.on('connection', function (socket) {
-    socket.on('quizTime', function (data) {
-        if (gameData[data.pin].master.id===socket.id){
-            const questionData = gameData[data.pin].questionData[data.questionIndex];
-            for (let i = 0; i<gameData[data.pin].playerIds.length; i++){
-                gameData[data.pin].playerIds[i].emit('questionData', {questionIndex: data.questionIndex, questionText: questionData.title, answers: questionData.answers, duration: questionData.duration});
+    socket.on('myRating', function (data) {
+        if (getGameObjFromPin(data.pin)!=null){
+            getGameObjFromPin(data.pin).master.emit('feedbackCame', {rating: data.rating});
+        }
+    });
+    socket.on('surveyTime', function (data) {
+        let gameObjFromPin = getGameObjFromPin(data.pin);
+        if (gameObjFromPin){
+            for (let i = 0;i<gameObjFromPin.playerIds.length;i++){
+                gameObjFromPin.playerIds[i].emit('feedbackTime');
             }
-            gameData[data.pin].master.emit('questionData', {questionIndex: data.questionIndex, questionText: questionData.title, answers: questionData.answers, duration: questionData.duration});
+        }
+    });
+    socket.on('answeredQuestion', function (data) {
+        let index = getGameObjFromPin(data.pin).playerScoreData.map(function (d) { return d['name'] }).indexOf(data.name);
+        getGameObjFromPin(data.pin).playerScoreData[index].recentAnswer = data.answer;
+    });
+    socket.on('quizTime', function (data) {
+        if (getGameObjFromPin(data.pin).master.id===socket.id){
+            const questionData = getGameObjFromPin(data.pin).questionData[data.questionIndex];
+            if (questionData==null){
+                return;
+            }
+            for (let i = 0; i<getGameObjFromPin(data.pin).playerIds.length; i++){
+                getGameObjFromPin(data.pin).playerIds[i].emit('questionData', {questionIndex: data.questionIndex, questionText: questionData.title, answers: questionData.answers, duration: questionData.duration, questionAmount: getGameObjFromPin(data.pin).questionData.length});
+            }
+            getGameObjFromPin(data.pin).master.emit('questionData', {questionIndex: data.questionIndex, questionText: questionData.title, answers: questionData.answers, duration: questionData.duration, questionAmount: getGameObjFromPin(data.pin).questionData.length});
             setTimeout(function () {
-                for (let i = 0; i<gameData[data.pin].playerIds.length; i++){
-                    gameData[data.pin].playerIds[i].emit('questionEnd');
+                let index;
+                let isCorrect;
+                for (let i = 0; i<getGameObjFromPin(data.pin).playerIds.length; i++){
+                    index = getGameObjFromPin(data.pin).playerScoreData.map(function (d) { return d['id'] }).indexOf(getGameObjFromPin(data.pin).playerIds[i].id);
+                    const recentAnswer = getGameObjFromPin(data.pin).playerScoreData[index].recentAnswer;
+                    if (recentAnswer!==-1) {
+                        isCorrect = questionData.answers[recentAnswer].correct;
+                    }else {
+                        isCorrect = false;
+                    }
+                    let score = 0;
+                    if (isCorrect){
+                        getGameObjFromPin(data.pin).playerScoreData[index].streak++;
+                        if (questionData.givesPoints) {
+                            score = 500*((getGameObjFromPin(data.pin).playerScoreData[index].streak/10)+1);
+                            getGameObjFromPin(data.pin).playerScoreData[index].score += score;
+                        }
+                    }else {
+                        getGameObjFromPin(data.pin).playerScoreData[index].streak = 0;
+                    }
+                    getGameObjFromPin(data.pin).playerIds[i].emit('questionEnd', {correct: isCorrect, questionIndex: data.questionIndex, scoreGained: score, streak: getGameObjFromPin(data.pin).playerScoreData[index].streak});
                 }
-                gameData[data.pin].playerScoreData.sort((a, b) => b.score - a.score);
-                gameData[data.pin].master.emit('questionEnd', {places: gameData[data.pin].playerScoreData});
-            }, data.duration * 1000);
+                getGameObjFromPin(data.pin).playerScoreData.sort((a, b) => b.score - a.score);
+                let answer = questionData.answers[questionData.answers.map(function (d) { return d['correct'] }).indexOf(true)];
+                getGameObjFromPin(data.pin).master.emit('questionEnd', {places: getGameObjFromPin(data.pin).playerScoreData, correctAnswer: answer});
+            }, questionData.duration * 1000);
         }
     });
     socket.on('startGamePls', function (data1) {
-        if (socket.id===gameData[data1.pin].master.id){
+        if (socket.id===getGameObjFromPin(data1.pin).master.id){
             fs.readdir(directoryPath, function (err, files) {
                 //handling error
                 if (err) {
@@ -49,17 +89,17 @@ io.on('connection', function (socket) {
                 fs.readFile(path.join(directoryPath, files[0]), function (err, data) {
                     if (err) throw err;
 
-                    for (var i = 0;i<gameData[data1.pin].playerIds.length;i++){
-                        gameData[data1.pin].playerIds[i].emit('slideData', {slide: data.toString('utf8')});
-                        gameData[data1.pin].playerIds[i].emit('letTheGamesBegin');
+                    for (var i = 0;i<getGameObjFromPin(data1.pin).playerIds.length;i++){
+                        getGameObjFromPin(data1.pin).playerIds[i].emit('slideData', {slide: data.toString('utf8')});
+                        getGameObjFromPin(data1.pin).playerIds[i].emit('letTheGamesBegin');
                     }
-                    gameData[data1.pin].master.emit('slideData', {slide: data.toString('utf8')});
+                    getGameObjFromPin(data1.pin).master.emit('slideData', {slide: data.toString('utf8')});
                 });
             });
         }
     });
     socket.on('slideUpdate', function (data1) {
-        if (socket.id===gameData[data1.pin].master.id){
+        if (socket.id===getGameObjFromPin(data1.pin).master.id){
             fs.readdir(directoryPath, function (err, files) {
                 //handling error
                 if (err) {
@@ -69,16 +109,13 @@ io.on('connection', function (socket) {
                 fs.readFile(path.join(directoryPath, files[data1.slideIndex]), function (err, data) {
                     if (err) throw err;
 
-                    for (var i = 0;i<gameData[data1.pin].playerIds.length;i++){
-                        gameData[data1.pin].playerIds[i].emit('slideData', {slide: data.toString('utf8')});
+                    for (var i = 0;i<getGameObjFromPin(data1.pin).playerIds.length;i++){
+                        getGameObjFromPin(data1.pin).playerIds[i].emit('slideData', {slide: data.toString('utf8')});
                     }
-                    gameData[data1.pin].master.emit('slideData', {slide: data.toString('utf8')});
+                    getGameObjFromPin(data1.pin).master.emit('slideData', {slide: data.toString('utf8')});
                 });
             });
         }
-    });
-    socket.on('focusStateChange', function (data) {
-        gameData[data.pin].master.emit('hereIsBigBoyUpdate', data);
     });
     socket.on('disconnect', function () {
         let STAHP = false;
@@ -107,8 +144,8 @@ io.on('connection', function (socket) {
         if (data!=null) {
             if (data.iAmMaster===true || data.iAmMaster==="true"){
                 if (data.pin != null) {
-                    if (gameData[data.pin] != null) {
-                        gameData[data.pin].master = socket;
+                    if (getGameObjFromPin(data.pin) != null) {
+                        getGameObjFromPin(data.pin).master = socket;
                         fs.readdir(directoryPath, function (err, files) {
                             //handling error
                             if (err) {
@@ -120,13 +157,13 @@ io.on('connection', function (socket) {
                     }
                 }
             }else if (data.pin != null && data.name != null) {
-                if (gameData[data.pin]!=null){
-                    if (!(gameData[data.pin].players.includes(data.name))){
-                        gameData[data.pin].players.push(data.name);
-                        gameData[data.pin].playerIds.push(socket);
-                        gameData[data.pin].playerScoreData.push({name: data.name, id: socket, score: 0});
+                if (getGameObjFromPin(data.pin)!=null){
+                    if (!(getGameObjFromPin(data.pin).players.includes(data.name))){
+                        getGameObjFromPin(data.pin).players.push(data.name);
+                        getGameObjFromPin(data.pin).playerIds.push(socket);
+                        getGameObjFromPin(data.pin).playerScoreData.push({name: data.name, id: socket.id, score: 0, recentAnswer: -1, streak: 0});
                         socket.emit('statusUpdate', {value: "urOk."});
-                        gameData[data.pin].master.emit('guyJoined', {name: data.name});
+                        getGameObjFromPin(data.pin).master.emit('guyJoined', {name: data.name});
                         return;
                     }
                 }
@@ -153,7 +190,25 @@ app.get('/public/*', function (req, res) {
 });
 
 app.get('/', function (req, res) {
-    res.render("./pages/main.ejs");
+    fs.readdir(directoryPath, function (err, files) {
+        //handling error
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        }
+        //listing all files using forEach
+        let slides = "";
+        files.forEach(function (file, index) {
+            fs.readFile(path.join(directoryPath, file), function (err, data) {
+                if (err) throw err;
+
+                slides+=data + "\n";
+
+                if (index===files.length-1){
+                    res.render("./pages/game.ejs", {slide: slides});
+                }
+            });
+        });
+    });
 });
 
 app.get('/createGame', function (req, res) {
@@ -180,34 +235,12 @@ app.get('/createGame', function (req, res) {
 
 app.post('/checkGameSession', function (req, res) {
     if (req.body.name!=null){
-        if (gameData[req.body.id] != null) {
-            res.send(!(gameData[req.body.id].players.includes(req.body.name)));
+        if (getGameObjFromPin(req.body.id) != null) {
+            res.send(!(getGameObjFromPin(req.body.id).players.includes(req.body.name)));
         }
     }else {
-        res.send(gameData[req.body.id] != null);
+        res.send(getGameObjFromPin(req.body.id) != null);
     }
-});
-
-app.get('/game', function (req, res) {
-    fs.readdir(directoryPath, function (err, files) {
-        //handling error
-        if (err) {
-            return console.log('Unable to scan directory: ' + err);
-        }
-        //listing all files using forEach
-        let slides = "";
-        files.forEach(function (file, index) {
-            fs.readFile(path.join(directoryPath, file), function (err, data) {
-                if (err) throw err;
-
-                slides+=data + "\n";
-
-                if (index===files.length-1){
-                    res.render("./pages/game.ejs", {slide: slides});
-                }
-            });
-        });
-    });
 });
 
 function getRandomInt(min, max) {
@@ -216,16 +249,21 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function getGameObjFromPin(pin){
+    let index = gameData.map(function (d) { return d['pin'] }).indexOf(parseInt(pin));
+    return gameData[index];
+}
+
 app.post('/createSession', function (req, res) {
     let randomInt = getRandomInt(0, 9999999);
-    while (gameData[randomInt]!=null){
+    while (getGameObjFromPin(randomInt)!=null){
         randomInt = getRandomInt(0, 9999999);
     }
 
     fs.readFile(path.join(__dirname, 'questions.json'), function (err, data) {
         if (err) throw err;
 
-        gameData[randomInt] = {players: [], playerIds: [], questionData: JSON.parse(data.toString('utf8')), playerScoreData: []};
+        gameData.push({players: [], playerIds: [], questionData: JSON.parse(data.toString('utf8')), playerScoreData: [], pin: randomInt});
         res.send(randomInt + '');
     });
 });

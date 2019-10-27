@@ -6,11 +6,13 @@
     <% include ../partials/head.ejs %>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-
         let xhttp;
         let socket;
         let pin;
         let slideLength;
+        let questionIndex;
+        let questionAmount;
+        let surveyData = {hate: 0, bad: 0, ok: 0, good: 0, excellent: 0};
 
         function load() {
             if (window.XMLHttpRequest) {
@@ -55,41 +57,36 @@
                         const length = document.getElementById("list").getElementsByTagName("li").length;
                         document.getElementById("playerCount").innerText = length + (length===1 ? " player" : " players");
                     });
-                    socket.on('hereIsBigBoyUpdate', function (data) {
-                        if (data.amIGoodBoy){
-                            document.getElementById(data.name).innerHTML = data.name;
-                        }else {
-                            document.getElementById(data.name).innerHTML = data.name + " - <strong style='color: red'>Doing something else</strong>";
-                        }
-                    });
                     let clockInterval
                     socket.on('questionData', function (data) {
                         document.getElementById("answerQuestion").style.display = "block";
                         document.getElementById("leaderboard").style.display = "none";
+                        questionAmount = data.questionAmount;
 
-                        document.getElementById("questionNumber").innerText = data.questionIndex;
+                        document.getElementById("questionNumber").innerText = "Question " + (data.questionIndex+1);
+                        questionIndex = data.questionIndex;
                         document.getElementById("questionText").innerText = data.questionText;
                         let answers = data.answers;
                         let answersHtml = '';
                         for (let i = 0; i<answers.length; i++){
                             if (i+1!==answers.length){
-                                answersHtml+='<button type="button" class="btn btn-primary" style="width: 100%" id="answer' + i + '" onclick="submitAnswer(' + i + ')">' + answers[i].answer + '</button>\n' +
+                                answersHtml+='<button type="button" class="btn btn-primary" style="width: 100%" id="answer' + i + '">' + answers[i].answer + '</button>\n' +
                                     '                        <br>\n' +
                                     '                        <br>';
                             }else {
-                                answersHtml+='<button type="button" class="btn btn-primary" style="width: 100%" id="answer' + i + '" onclick="submitAnswer(' + i + ')">' + answers[i].answer + '</button>\n';
+                                answersHtml+='<button type="button" class="btn btn-primary" style="width: 100%" id="answer' + i + '">' + answers[i].answer + '</button>\n';
                             }
                         }
                         document.getElementById("answers").innerHTML = answersHtml;
                         document.getElementById("clock").innerText = data.duration + ' seconds left!';
                         let i = data.duration;
                         clockInterval = setInterval(function () {
-                            document.getElementById("clock").innerText = i + ' seconds left!';
                             i--;
+                            document.getElementById("clock").innerText = i + ' seconds left!';
                             if (i <= 0) {
                                 clearInterval(clockInterval);
                             }
-                        }, data.duration * 1000);
+                        }, 1000);
                     });
                     socket.on('questionEnd', function (data) {
                         if (clockInterval!=null){
@@ -100,12 +97,40 @@
                         let places = data.places;
                         let placesHtml = '';
                         for (let i = 0;i<places.length;i++){
-                            placesHtml+= '<h2>' + (i+1) + ' ' + places[i].name + ' - ' + places[i].score + '</h2>';
+                            placesHtml+= '<h2>' + (i+1) + '. ' + places[i].name + ' - ' + places[i].score + '</h2>';
                         }
                         document.getElementById("places").innerHTML = placesHtml;
+                        document.getElementById("correctAnswer").innerText = data.correctAnswer.answer;
                     });
                     socket.on('slideData', function (data) {
                         document.getElementById("slide").innerHTML = data.slide;
+                    });
+                    socket.on('feedbackCame', function (data) {
+                        document.getElementById("questionsContainer").style.display = "none";
+                        document.getElementById("surveyTime").style.display = "block";
+                        switch (data.rating) {
+                            case 0:
+                                surveyData.hate++;
+                                break;
+                            case 1:
+                                surveyData.bad++;
+                                break;
+                            case 2:
+                                surveyData.ok++;
+                                break;
+                            case 3:
+                                surveyData.good++;
+                                break;
+                            case 4:
+                                surveyData.excellent++;
+                                break;
+                        }
+                        const total = surveyData.excellent + surveyData.good + surveyData.ok + surveyData.hate + surveyData.bad;
+                        document.getElementById("hateBar").style.width = ((100/total)*surveyData.hate) + "%";
+                        document.getElementById("badBar").style.width = ((100/total)*surveyData.bad) + "%";
+                        document.getElementById("okBar").style.width = ((100/total)*surveyData.ok) + "%";
+                        document.getElementById("goodBar").style.width = ((100/total)*surveyData.good) + "%";
+                        document.getElementById("excellentBar").style.width = ((100/total)*surveyData.excellent) + "%";
                     });
                 }
             };
@@ -128,7 +153,7 @@
             if (slideIndex+1<slideLength) {
                 slideIndex++;
                 socket.emit('slideUpdate', {slideIndex: slideIndex, pin: pin});
-                if (slideIndex<slideLength){
+                if (slideIndex+1>=slideLength){
                     document.getElementById("nextBtn").style.display = "none";
                     document.getElementById("quizStartThing").style.display = "block";
                 }else {
@@ -136,9 +161,20 @@
                     document.getElementById("quizStartThing").style.display = "none";
                 }
             }else {
-                socket.emit('quizTime', {pin: pin, questionIndex: 0})
+                socket.emit('quizTime', {pin: pin, questionIndex: 0});
                 document.getElementById("slides").style.display = "none";
                 document.getElementById("questionsContainer").style.display = "block";
+            }
+        }
+
+        function nextQuestion() {
+            if (questionIndex+2<=questionAmount) {
+                questionIndex++;
+                socket.emit('quizTime', {pin: pin, questionIndex: questionIndex});
+            }else {
+                socket.emit('surveyTime', {pin: pin});
+                document.getElementById("questionsContainer").style.display = "none";
+                document.getElementById("surveyTime").style.display = "block";
             }
         }
 
@@ -178,6 +214,7 @@
 
         <div class="card" style="position: absolute; left: 50%; top: 10%; transform: translate(-50%, -50%);">
             <div class="card-body">
+                <h3>Go to <a href="https://geography-presentation.herokuapp.com/">geography-presentation.herokuapp.com</a> and enter the pin below:</h3>
                 <h1 id="Pin" style="font-size: 60px">Connecting...</h1>
             </div>
         </div>
@@ -207,7 +244,7 @@
                 </div>
                 <div class="nav navbar-nav navbar-right">
                     <img class="headerImg" id="nextBtn" src="/public/rightArrow.png" alt="Next slide" style="width: 64px; height: 64px;" onclick="nextSlide()">
-                    <h2 id="quizStartThing" style="display: none; color: white;">Start Quiz!</h2>
+                    <h2 id="quizStartThing" style="display: none; color: white;" onclick="nextSlide()">Start Quiz!</h2>
                 </div>
             </div>
         </nav>
@@ -221,24 +258,64 @@
     </div>
 
     <div id="questionsContainer" style="display: none;">
-        <div style="position: absolute; left: 20%; top: 20%; transform: translate(-50%, -50%);">
-            <p id="clock">0 Seconds Left!</p>
-        </div>
-        <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" id="answerQuestion">
-            <h1 id="questionNumber">Question 1</h1>
-            <div class="card" style="width:400px">
-                <div class="card-body">
-                    <h4 class="card-title" id="questionText">(Actual question goes here)</h4>
-                    <!--                        <button type="button" class="btn btn-primary" style="width: 100%" id="answer1">Answer 1</button>-->
-                    <div id="answers">
+        <div id="answerQuestion">
+            <div style="position: absolute; left: 20%; top: 20%; transform: translate(-50%, -50%);">
+                <p id="clock" style="color: white">0 Seconds Left!</p>
+            </div>
+            <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+                <h1 id="questionNumber">Question 1</h1>
+                <div class="card" style="width:400px">
+                    <div class="card-body">
+                        <h4 class="card-title" id="questionText">(Actual question goes here)</h4>
+                        <!--                        <button type="button" class="btn btn-primary" style="width: 100%" id="answer1">Answer 1</button>-->
+                        <div id="answers">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div id="leaderboard">
-            <h1>Leaderboard</h1>
-            <div id="places" class="card">
+            <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+                <h1>Correct answer:</h1>
+                <h2 id="correctAnswer"></h2>
+                <br>
+                <h1>Leaderboard</h1>
+                <div id="places" class="card">
 
+                </div>
+            </div>
+            <button id="nextQuestion" class="btn btn-primary" style="position: absolute; left: 90%; top: 20%; transform: translate(-50%, -50%);" onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <div id="surveyTime" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none;">
+        <h1 style="color: white">What did you think of this presentation?</h1>
+        <br>
+        <br>
+        <div id="bars">
+            <p>I hate it!</p>
+            <div id="progressHate" style="width: 100%; background-color: #DDD;">
+                <div id="hateBar" style="width: 0%; height: 30px; background-color: dodgerblue;"></div>
+            </div>
+            <br>
+            <p>Bad</p>
+            <div id="progressBad" style="width: 100%; background-color: #DDD;">
+                <div id="badBar" style="width: 0%; height: 30px; background-color: dodgerblue;"></div>
+            </div>
+            <br>
+            <p>Ok</p>
+            <div id="progressOk" style="width: 100%; background-color: #DDD;">
+                <div id="okBar" style="width: 0%; height: 30px; background-color: dodgerblue;"></div>
+            </div>
+            <br>
+            <p>Good</p>
+            <div id="progressGood" style="width: 100%; background-color: #DDD;">
+                <div id="goodBar" style="width: 0%; height: 30px; background-color: dodgerblue;"></div>
+            </div>
+            <br>
+            <p>Excellent</p>
+            <div id="progressExcellent" style="width: 100%; background-color: #DDD;">
+                <div id="excellentBar" style="width: 0%; height: 30px; background-color: dodgerblue;"></div>
             </div>
         </div>
     </div>
