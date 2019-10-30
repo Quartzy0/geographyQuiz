@@ -45,6 +45,7 @@
                         newListElement.setAttribute('id', data.name);
 
                         newListElement.appendChild(newListElementText);
+                        newListElement.setAttribute('class', 'playerListElement');
                         document.getElementById("list").appendChild(newListElement);
 
                         const length = document.getElementById("list").getElementsByTagName("li").length;
@@ -195,21 +196,21 @@
     </script>
 
     <style>
-        ul {
+        .playerList {
             list-style-type: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
         }
 
-        li {
+        .playerListElement {
             float: left;
             padding: 16px;
             font-size: 40px;
             color: #FFFFFF;
         }
 
-        li:hover {
+        .playerListElement:hover {
             color: #CCCCCC;
         }
     </style>
@@ -231,7 +232,7 @@
         <h1 style="position: absolute; left: 10%; top: 30%; transform: translate(-50%, -50%); font-size: 40px; color: white" id="playerCount">0 players</h1>
 
         <div>
-            <ul style="position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%);" id="list">
+            <ul class="playerList" style="position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%);" id="list">
 
             </ul>
         </div>
