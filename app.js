@@ -9,7 +9,11 @@ var directoryPath = path.join(path.join(__dirname, 'views'), 'presentationSlides
 
 var gameData = [];
 
-const public_files = [{"name": "leftArrow.png", "path": __dirname + "/public/images/left.png"},{"name": "rightArrow.png", "path": __dirname + "/public/images/right.png"}];
+const public_files = [{"name": "leftArrow.png", "path": __dirname + "/public/images/left.png"},{"name": "rightArrow.png", "path": __dirname + "/public/images/right.png"},{"name": "UAE-Map.jpg", "path": __dirname + "/public/images/UAEMap.gif"},{"name": "UAE-Map_2.png", "path": __dirname + "/public/images/UAEMap_2.png"},{"name": "Mohmad.png", "path": __dirname + "/public/images/Mohmad.png"},
+    {"name": "potugalflag.png", "path": __dirname + "/public/images/portugalflag.png"},{"name": "dutch.png", "path": __dirname + "/public/images/dutch.png"},{"name": "britn.png", "path": __dirname + "/public/images/britn.png"},{"name": "moneymoney.png", "path": __dirname + "/public/images/moneymoney.png"},{"name": "oilMoneyz.png", "path": __dirname + "/public/images/oilMoneyz.png"},
+    {"name": "gemos.png", "path": __dirname + "/public/images/gemos.png"},{"name": "desertos.jpg", "path": __dirname + "/public/images/desertos.jpg"},{"name": "sandcatos.jpg", "path": __dirname + "/public/images/sandcatos.jpg"},{"name": "socno_meso.jpg", "path": __dirname + "/public/images/socno_meso.jpg"},{"name": "seecow.jpg", "path": __dirname + "/public/images/seecow.jpg"},
+    {"name": "cooltre.jpg", "path": __dirname + "/public/images/cooltre.jpg"},{"name": "coolflowr.jpg", "path": __dirname + "/public/images/coolflowr.jpg"},{"name": "kk.jpg", "path": __dirname + "/public/images/kk.jpg"},{"name": "poop.jpg", "path": __dirname + "/public/images/poop.jpg"}
+];
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');

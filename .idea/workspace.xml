@@ -2,10 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f35301b-71dd-4fe0-9ac2-a05165c75dcf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/images/Mohmad.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/UAEMap.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/UAEMap_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/britn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/coolflowr.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/cooltre.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/desertos.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/dutch.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/gemos.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/kk.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/moneymoney.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/oilMoneyz.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/poop.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/portugalflag.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/sandcatos.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/seecow.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/socno_meso.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/presentationSlides/2.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/presentationSlides/5.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/presentationSlides/6.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/presentationSlides/7.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/pages/gameHost.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/pages/gameHost.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/presentationSlides/1.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/presentationSlides/1.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/presentationSlides/2.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/presentationSlides/2.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/presentationSlides/3.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/presentationSlides/3.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/presentationSlides/4.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/presentationSlides/4.ejs" afterDir="false" />
     </list>
@@ -92,7 +112,8 @@
       <workItem from="1572087423965" duration="680000" />
       <workItem from="1572103027904" duration="4182000" />
       <workItem from="1572169253108" duration="28791000" />
-      <workItem from="1572453008398" duration="2249000" />
+      <workItem from="1572453008398" duration="2499000" />
+      <workItem from="1572680311156" duration="9399000" />
     </task>
     <task id="LOCAL−00001" summary="Major thingies added">
       <created>1571856634207</created>
@@ -136,7 +157,13 @@
       <option name="presentableId" value="LOCAL−00007" />
       <updated>1572208590569</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL−00008" summary="Made stuff better">
+      <created>1572455320920</created>
+      <option name="number" value="LOCAL−00008" />
+      <option name="presentableId" value="LOCAL−00008" />
+      <updated>1572455320920</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,6 +188,7 @@
     <MESSAGE value="Half done things here. Doesn't actually work yet" />
     <MESSAGE value="almost finished!" />
     <MESSAGE value="FINISHED!! REEEEE" />
-    <option name="LAST_COMMIT_MESSAGE" value="FINISHED!! REEEEE" />
+    <MESSAGE value="Made stuff better" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made stuff better" />
   </component>
 </project>
