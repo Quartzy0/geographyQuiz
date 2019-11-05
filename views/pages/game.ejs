@@ -12,6 +12,7 @@
 
         var pin;
         var name;
+        var currentQuestionIndex;
 
         function load() {
             if (xhttp==null) {
@@ -26,7 +27,7 @@
         }
 
         function submitAnswer(index) {
-            socket.emit('answeredQuestion', {pin: pin, name: name, answer: index});
+            socket.emit('answeredQuestion', {pin: pin, name: name, answer: index, questionIndex: currentQuestionIndex});
             let answerText = document.getElementById("answers").children;
             for (let i = 0;i<answerText.length;i++){
                 answerText[i].disabled = true;
@@ -73,6 +74,7 @@
 
                             document.getElementById("questionNumber").innerText = "Question " + (data.questionIndex+1);
                             document.getElementById("questionText").innerText = data.questionText;
+                            currentQuestionIndex = data.questionIndex;
                             let answers = data.answers;
                             let answersHtml = '';
                             for (let i = 0; i<answers.length; i++){

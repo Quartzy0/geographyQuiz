@@ -163,10 +163,26 @@
                     document.getElementById("quizStartThing").style.display = "none";
                 }
             }else {
-                socket.emit('quizTime', {pin: pin, questionIndex: 0});
-                document.getElementById("slides").style.display = "none";
-                document.getElementById("questionsContainer").style.display = "block";
+                quizStartSequence(5);
             }
+        }
+
+        function quizStartSequence(timeBeforeStart) {
+            document.getElementById("quizStartCountdown").style.display = "block";
+            document.getElementById("slides").style.display = "none";
+            let i = 0;
+            var okWhy = setInterval(function () {
+                if (i+1<timeBeforeStart){
+                    i++;
+                    document.getElementById("quizStartCountdown").innerText = (timeBeforeStart-i) + " seconds before quiz starts!";
+                }else {
+                    socket.emit('quizTime', {pin: pin, questionIndex: 0});
+                    document.getElementById("slides").style.display = "none";
+                    document.getElementById("questionsContainer").style.display = "block";
+                    document.getElementById("quizStartCountdown").style.display = "none";
+                    clearInterval(okWhy);
+                }
+            }, 1000);
         }
 
         function nextQuestion() {
@@ -265,6 +281,8 @@
 
         </div>
     </div>
+
+    <h1 style="color: white; font-size: 50px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none;" id="quizStartCountdown">5 seconds before quiz starts!</h1>
 
     <div id="questionsContainer" style="display: none;">
         <div id="answerQuestion">

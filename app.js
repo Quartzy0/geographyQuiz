@@ -42,6 +42,45 @@ io.on('connection', function (socket) {
     socket.on('answeredQuestion', function (data) {
         let index = getGameObjFromPin(data.pin).playerScoreData.map(function (d) { return d['name'] }).indexOf(data.name);
         getGameObjFromPin(data.pin).playerScoreData[index].recentAnswer = data.answer;
+
+        let playerScoreDatum = getGameObjFromPin(data.pin).playerScoreData[index];
+        let canProceed = true;
+        for (var i = 0;i<playerScoreDatum;i++){
+            if (playerScoreDatum.recentAnswer===-1){
+                canProceed = false;
+            }
+        }
+
+        if (canProceed){
+            clearTimeout(getGameObjFromPin(data.pin).questionTimeout);
+            const questionData = getGameObjFromPin(data.pin).questionData[data.questionIndex];
+            let index;
+            let isCorrect;
+            for (let i = 0; i<getGameObjFromPin(data.pin).playerIds.length; i++){
+                index = getGameObjFromPin(data.pin).playerScoreData.map(function (d) { return d['id'] }).indexOf(getGameObjFromPin(data.pin).playerIds[i].id);
+                const recentAnswer = getGameObjFromPin(data.pin).playerScoreData[index].recentAnswer;
+                if (recentAnswer!==-1) {
+                    isCorrect = questionData.answers[recentAnswer].correct;
+                }else {
+                    isCorrect = false;
+                }
+                let score = 0;
+                if (isCorrect){
+                    getGameObjFromPin(data.pin).playerScoreData[index].streak++;
+                    if (questionData.givesPoints) {
+                        score = 500*((getGameObjFromPin(data.pin).playerScoreData[index].streak/10)+1);
+                        getGameObjFromPin(data.pin).playerScoreData[index].score += score;
+                    }
+                }else {
+                    getGameObjFromPin(data.pin).playerScoreData[index].streak = 0;
+                }
+                getGameObjFromPin(data.pin).playerIds[i].emit('questionEnd', {correct: isCorrect, questionIndex: data.questionIndex, scoreGained: score, streak: getGameObjFromPin(data.pin).playerScoreData[index].streak});
+                getGameObjFromPin(data.pin).playerScoreData[index].recentAnswer = -1;
+            }
+            getGameObjFromPin(data.pin).playerScoreData.sort((a, b) => b.score - a.score);
+            let answer = questionData.answers[questionData.answers.map(function (d) { return d['correct'] }).indexOf(true)];
+            getGameObjFromPin(data.pin).master.emit('questionEnd', {places: getGameObjFromPin(data.pin).playerScoreData, correctAnswer: answer});
+        }
     });
     socket.on('quizTime', function (data) {
         if (getGameObjFromPin(data.pin).master.id===socket.id){
@@ -53,7 +92,7 @@ io.on('connection', function (socket) {
                 getGameObjFromPin(data.pin).playerIds[i].emit('questionData', {questionIndex: data.questionIndex, questionText: questionData.title, answers: questionData.answers, duration: questionData.duration, questionAmount: getGameObjFromPin(data.pin).questionData.length});
             }
             getGameObjFromPin(data.pin).master.emit('questionData', {questionIndex: data.questionIndex, questionText: questionData.title, answers: questionData.answers, duration: questionData.duration, questionAmount: getGameObjFromPin(data.pin).questionData.length});
-            setTimeout(function () {
+            getGameObjFromPin(data.pin).questionTimeout = setTimeout(function () {
                 let index;
                 let isCorrect;
                 for (let i = 0; i<getGameObjFromPin(data.pin).playerIds.length; i++){
@@ -75,6 +114,7 @@ io.on('connection', function (socket) {
                         getGameObjFromPin(data.pin).playerScoreData[index].streak = 0;
                     }
                     getGameObjFromPin(data.pin).playerIds[i].emit('questionEnd', {correct: isCorrect, questionIndex: data.questionIndex, scoreGained: score, streak: getGameObjFromPin(data.pin).playerScoreData[index].streak});
+                    getGameObjFromPin(data.pin).playerScoreData[index].recentAnswer = -1;
                 }
                 getGameObjFromPin(data.pin).playerScoreData.sort((a, b) => b.score - a.score);
                 let answer = questionData.answers[questionData.answers.map(function (d) { return d['correct'] }).indexOf(true)];
