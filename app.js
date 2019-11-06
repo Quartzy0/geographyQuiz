@@ -43,10 +43,10 @@ io.on('connection', function (socket) {
         let index = getGameObjFromPin(data.pin).playerScoreData.map(function (d) { return d['name'] }).indexOf(data.name);
         getGameObjFromPin(data.pin).playerScoreData[index].recentAnswer = data.answer;
 
-        let playerScoreDatum = getGameObjFromPin(data.pin).playerScoreData[index];
+        let playerScoreDatum = getGameObjFromPin(data.pin).playerScoreData;
         let canProceed = true;
-        for (var i = 0;i<playerScoreDatum;i++){
-            if (playerScoreDatum.recentAnswer===-1){
+        for (var i = 0;i<playerScoreDatum.length;i++){
+            if (playerScoreDatum[i].recentAnswer===-1 || playerScoreDatum[i].recentAnswer==null){
                 canProceed = false;
             }
         }
